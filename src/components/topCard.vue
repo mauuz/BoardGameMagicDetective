@@ -1,0 +1,43 @@
+<template>
+  <div class="user-card">
+    <div class="card" v-for="(item,index) in cardList">
+      <img :src="imgUrl(item)" alt="">
+    </div>
+  </div>
+</template>
+
+<script>
+import {ref} from 'vue'
+export default {
+  name: "topCard",
+  setup(){
+    function imgUrl(index){
+      return `src/assets/${index+1}.png`
+    }
+    return {
+      imgUrl
+    }
+  },
+  props:{
+    cardList:{
+      type:Array,
+      default:[1,1,1]
+    }
+  }
+}
+</script>
+
+<style scoped>
+  .user-card {
+    display: flex;
+  }
+  .card {
+    margin: 0 auto;
+    width: 4rem;
+    height: 7rem;
+  }
+
+  .card img {
+    width: 4rem;
+  }
+</style>
