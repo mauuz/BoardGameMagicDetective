@@ -26,9 +26,13 @@ export default {
 
 <style scoped>
   .container {
+      height:90%;
+      min-height:45rem;
+      padding:1rem;
       display:flex;
       flex-direction:column;
-      padding:1.5rem;
+
+      justify-content:center;
   }
 
 </style>

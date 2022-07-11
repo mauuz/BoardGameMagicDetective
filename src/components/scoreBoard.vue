@@ -30,7 +30,7 @@ export default {
     const cardTypeNumberList = ref([{
       type:1,
       number:2,
-      fill:1,
+      fill:0,
       isChoose:false
     },
       {
@@ -137,10 +137,12 @@ export default {
     transition: all 1s;
   }
   .card-display img {
-    width: 2.6rem;
+    width: 3.5rem;
     transition: all 0.5s;
   }
  .fill {
+    opacity:0.7;
+    background-color: #fff;
     text-align:center;
     min-height:1.5rem;
     border: 1px solid black;
@@ -153,6 +155,8 @@ export default {
     flex:1;
   }
   .credit-board {
+    color:#000000;
+    margin-top: 1rem;
     width:100%;
     display:flex;
     justify-content:space-between;
