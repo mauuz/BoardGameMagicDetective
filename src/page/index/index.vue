@@ -1,9 +1,10 @@
 <template>
   <div class="bg">
+    <popUp></popUp>
     <div class="container">
         <div class="choose">
           <label>Magic Detective</label>
-          <button>创建房间</button>
+          <button @click="createRoom">创建房间</button>
           <button>加入游戏</button>
         </div>
     </div>
@@ -11,8 +12,22 @@
 </template>
 
 <script>
+import popUp from "../../components/popUp.vue";
+import {ref,getCurrentInstance} from 'vue'
 export default {
-  name: "index"
+  name: "index",
+  setup(){
+    const {appContext} = getCurrentInstance()
+    const createRoom = function (){
+      appContext.config.globalProperties.$bus.emit('createRoom')
+    }
+    return {
+      createRoom
+    }
+  },
+  components:{
+    popUp
+  }
 }
 </script>
 
