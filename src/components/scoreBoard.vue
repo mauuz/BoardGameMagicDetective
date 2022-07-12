@@ -3,6 +3,9 @@
     <button @click="confirm" :class="{prohibit:prohibit}">确定出牌</button>
   </div>
 <div class="center">
+  <div class="endMyTurn" :class="{prohibit:!canPlayerPass}">
+    <button>结束回合</button>
+  </div>
   <div class="player">
     Player{{playerId}}
   </div>
@@ -33,6 +36,15 @@ export default {
     const { appContext } = getCurrentInstance()
     const imgPosition = ref(null)
     const prohibit = ref(true)
+
+    const canConfirm = computed(()=>{
+      return store.state.centerShowCard.isMyTurn
+    })
+
+    const canPlayerPass = computed(()=>{
+      return store.state.centerShowCard.isPlayCard
+    })
+
     const cardTypeNumberList = computed(()=>{
       return store.state.boardCredit.cardTypeNumberList
     })
@@ -63,7 +75,7 @@ export default {
     watch(cardTypeNumberList,(old,newValue)=>{
       for(let i = 0;i< cardTypeNumberList.value.length;i++) {
         if(cardTypeNumberList.value[i].isChoose){
-          prohibit.value = false
+          canConfirm.value === true ? prohibit.value = false : prohibit.value = true
           break
         }else {
           prohibit.value = true
@@ -71,8 +83,22 @@ export default {
       }
 
     },{deep:true})
+    watch(canConfirm,()=>{
+      if( canConfirm.value === false){
+        prohibit.value = true
+      }else {
+        for(let i = 0;i< cardTypeNumberList.value.length;i++) {
+          if(cardTypeNumberList.value[i].isChoose){
+            prohibit.value = false
+            break
+          }else {
+            prohibit.value = true
+          }
+        }
+      }
+    })
     return {
-      cardTypeNumberList,cardFillIn,getUrl,choose,imgPosition,confirm,prohibit,playerId
+      cardTypeNumberList,cardFillIn,getUrl,choose,imgPosition,confirm,prohibit,playerId,canPlayerPass,canConfirm
     }
   },
 
@@ -82,6 +108,7 @@ export default {
 
 <style scoped>
   .center {
+    position: relative;
     width: 100%;
   }
   .scoreboards {
@@ -129,7 +156,9 @@ export default {
     margin-bottom:1.5rem;
   }
 
-  .confirm button {
+  .confirm button ,
+  .endMyTurn button
+  {
       color:white;
       background: url("/src/assets/img_1.png") no-repeat center center;
       background-position:20%;
@@ -147,7 +176,7 @@ export default {
   }
 
   .player {
-    margin: 0 auto;
+    position: relative;
     margin-top: 4rem;
     line-height:1.5rem;
     width:7rem;
@@ -158,5 +187,10 @@ export default {
     background-position:20%;
     background-size: 100% 100%;
     margin-bottom: 1.5rem;
+  }
+  .endMyTurn {
+    position:absolute;
+    top:-1rem;
+    right: 0;
   }
 </style>

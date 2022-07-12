@@ -120,7 +120,8 @@ const centerShowCard = {
     mutations:{
         OPEN_CARD(state){
             state.showCard = true
-            this.state.isMyTurn = false
+            state.isPlayCard = true
+            state.isMyTurn = false
         },
         ClOSE_CARD(state){
             state.showCard = false
@@ -128,8 +129,12 @@ const centerShowCard = {
     },
     state(){
         return {
+            //展示卡片
             showCard:false,
             cardType:1,
+            //是否出牌
+            isPlayCard:false,
+            //是不是我的回合？
             isMyTurn:true
         }
     }

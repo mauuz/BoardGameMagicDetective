@@ -32,7 +32,7 @@ export default {
     onMounted(()=>{
       appContext.config.globalProperties.$bus.on('confirm',(type)=>{
           store.commit('OPEN_CARD')
-          currentChooseCard.value = type + 1
+
 
       })
     })
