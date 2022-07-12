@@ -1,6 +1,6 @@
 <template>
-    <div class="top">
-      <topCard :cardList="[5,2,3]"></topCard>
+    <div class="top" v-if="playerNumber === 5">
+      <topCard :cardList="top"></topCard>
     </div>
     <div class="left-right">
       <sideCard :cardList="[1,2,5]"></sideCard>
@@ -13,11 +13,27 @@
 
 <script>
 
+import {computed} from 'vue'
 import sideCard from "./sideCard.vue"
 import topCard from "./topCard.vue"
 import centerCard from "./centerCard.vue"
+import { useStore} from 'vuex'
 export default {
   name: "otherPlayerCardPosition",
+  setup(){
+    const store = useStore()
+    console.log(store.state)
+    //卡牌数组
+    let top = computed(()=>{
+        return store.state.playerCard.cardList[0].card
+    })
+    let playerNumber = computed(()=>{
+      return store.state.setting.playerNumber
+    })
+    return {
+      top,playerNumber
+    }
+  },
   components:{
     sideCard,topCard,centerCard
   }

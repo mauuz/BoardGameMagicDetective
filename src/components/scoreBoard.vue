@@ -24,6 +24,7 @@ import {ref, computed, onMounted, getCurrentInstance, watch} from 'vue'
 export default {
   name: "scoreBoards",
   setup(){
+    const currentChooseCard = ref(0)
     const { appContext } = getCurrentInstance()
     const imgPosition = ref(null)
     const prohibit = ref(true)
@@ -85,7 +86,8 @@ export default {
     let cardFillIn = ref(cardTypeNumberList)
 
     function getUrl(index){
-      return `src/assets/${index+1}.png`
+      return new URL(`../../src/assets/${index+1}.png`, import.meta.url).href
+
     }
 
 
@@ -95,11 +97,12 @@ export default {
           cardTypeNumberList.value[i].isChoose = false
         }
       }
+      currentChooseCard.value = index
       cardTypeNumberList.value[index].isChoose = !cardTypeNumberList.value[index].isChoose
     }
 
     function confirm(){
-      appContext.config.globalProperties.$bus.emit('confirm')
+      appContext.config.globalProperties.$bus.emit('confirm',currentChooseCard.value)
     }
 
     watch(cardTypeNumberList,(old,newValue)=>{
@@ -173,7 +176,7 @@ export default {
 
   .confirm button {
       color:white;
-      background: url("src/assets/img_1.png") no-repeat center center;
+      background: url("/src/assets/img_1.png") no-repeat center center;
       background-position:20%;
       background-size: 100% 100%;
       cursor: pointer;

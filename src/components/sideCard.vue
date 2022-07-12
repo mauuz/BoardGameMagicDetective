@@ -12,7 +12,7 @@ export default {
   name: "sideCard",
   setup() {
       function imgUrl(index){
-        return `src/assets/${index+1}.png`
+        return new URL(`../../src/assets/${index+1}.png`, import.meta.url).href
       }
       return {
         imgUrl

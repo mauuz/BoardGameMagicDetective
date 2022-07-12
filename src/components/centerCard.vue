@@ -4,29 +4,39 @@
         <img src="../assets/back.png" alt="">
       </div>
       <div class="back">
-        <img src="../assets/2.png" alt="">
+        <img :src="imgUrl" alt="">
       </div>
   </div>
 </template>
 
 <script>
-import {ref,onMounted,getCurrentInstance} from 'vue'
+import {ref,onMounted,getCurrentInstance,computed} from 'vue'
 export default {
   name: "centerCard",
   setup(){
-    const { appContext } = getCurrentInstance()
+    const { appContext} = getCurrentInstance()
     let showCardType = ref(0)
+    let currentChooseCard = ref(1)
     const isActive = ref(false)
-    function showCard(type){
-        return `/src/assets/${type}.png`
-    }
+    let imgUrl = computed(()=>{
+        if(currentChooseCard.value == 1){
+          return new URL('../../src/assets/10.png', import.meta.url).href
+        }else {
+          return new URL(`../../src/assets/${currentChooseCard.value}.png`, import.meta.url).href
+        }
+
+
+    })
     onMounted(()=>{
-      appContext.config.globalProperties.$bus.on('confirm',()=>{
+      appContext.config.globalProperties.$bus.on('confirm',(type)=>{
           isActive.value = true
+          currentChooseCard.value = type + 1
+
       })
     })
+
     return {
-      isActive,showCard
+      isActive,imgUrl
     }
 
   }

@@ -7,22 +7,35 @@
               <choosePlayerNumber></choosePlayerNumber>
             </div>
         </div>
-
       </div>
+  </teleport>
+
+  <teleport to="body" v-if="showEnterRoom" >
+    <div class="mask" @click.stop="close">
+      <div class="center" >
+        <div class="title">房间号</div>
+        <div class="content" @click.stop="prevent">
+          <enterRoom></enterRoom>
+        </div>
+      </div>
+    </div>
   </teleport>
 
 </template>
 
 <script>
 import choosePlayerNumber from "./choosePlayerNumber.vue";
+import enterRoom from "./enterRoom.vue";
 import { ref,onMounted,getCurrentInstance} from 'vue'
 export default {
   name: "popUp",
   setup(){
       const { appContext } = getCurrentInstance()
       let showPopUp = ref(false)
+      let showEnterRoom = ref(false)
       function close (){
         showPopUp.value = false
+        showEnterRoom.value = false
       }
       function prevent(){
 
@@ -31,13 +44,17 @@ export default {
         appContext.config.globalProperties.$bus.on('createRoom',()=>{
           showPopUp.value = true
         })
+
+        appContext.config.globalProperties.$bus.on('enterRoom',()=>{
+          showEnterRoom.value = true
+        })
       })
       return {
-        showPopUp,close,prevent
+        showPopUp,close,prevent,showEnterRoom
       }
   },
   components:{
-    choosePlayerNumber
+    choosePlayerNumber,enterRoom
   }
 }
 </script>
@@ -69,7 +86,6 @@ export default {
     border-radius: 1rem;
   }
   .center {
-
     width:100%;
     height: 100%;
     display: flex;
@@ -77,4 +93,5 @@ export default {
     align-items: center;
     justify-content:center;
   }
+
 </style>

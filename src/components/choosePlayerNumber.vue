@@ -1,10 +1,10 @@
 <template>
     <div class="playerNumber">
       <div style="height:6rem;">
-        <button>4 人</button>
+        <button>4 人(包括幽灵)</button>
       </div>
       <div>
-        <button>5 人</button>
+        <button>5 人(包括幽灵)</button>
       </div>
     </div>
 </template>

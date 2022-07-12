@@ -5,7 +5,7 @@
         <div class="choose">
           <label>Magic Detective</label>
           <button @click="createRoom">创建房间</button>
-          <button>加入游戏</button>
+          <button @click="enterRoom">加入游戏</button>
         </div>
     </div>
   </div>
@@ -21,8 +21,11 @@ export default {
     const createRoom = function (){
       appContext.config.globalProperties.$bus.emit('createRoom')
     }
+    const enterRoom = function () {
+      appContext.config.globalProperties.$bus.emit('enterRoom')
+    }
     return {
-      createRoom
+      createRoom,enterRoom
     }
   },
   components:{
@@ -46,7 +49,7 @@ export default {
       font-weight: bold;
       margin-bottom:1rem;
       color:white;
-      background: url("src/assets/img_1.png") no-repeat center center;
+      background: url("/src/assets/img_1.png") no-repeat center center;
       background-position:20%;
       background-size: 100% 100%;
       cursor: pointer;
