@@ -7,7 +7,6 @@
         </div>
       </div>
   </div>
-
 </template>
 
 <script>
@@ -27,7 +26,7 @@ export default {
 <style scoped>
   .container {
       height:90%;
-      min-height:45rem;
+      min-height:50rem;
       padding:1rem;
       display:flex;
       flex-direction:column;

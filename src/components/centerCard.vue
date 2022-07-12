@@ -10,26 +10,28 @@
 </template>
 
 <script>
+import {useStore} from 'vuex'
 import {ref,onMounted,getCurrentInstance,computed} from 'vue'
 export default {
   name: "centerCard",
   setup(){
+    const store = useStore()
     const { appContext} = getCurrentInstance()
-    let showCardType = ref(0)
-    let currentChooseCard = ref(1)
-    const isActive = ref(false)
-    let imgUrl = computed(()=>{
-        if(currentChooseCard.value == 1){
-          return new URL('../../src/assets/10.png', import.meta.url).href
-        }else {
-          return new URL(`../../src/assets/${currentChooseCard.value}.png`, import.meta.url).href
-        }
+    let showCardType = computed(()=>{
+      return store.state.centerShowCard.cardType
+    })
 
+    const isActive = computed(()=>{
+        return store.state.centerShowCard.showCard
+    })
+
+    let imgUrl = computed(()=>{
+          return new URL(`../../src/assets/${showCardType.value}.png`, import.meta.url).href
 
     })
     onMounted(()=>{
       appContext.config.globalProperties.$bus.on('confirm',(type)=>{
-          isActive.value = true
+          store.commit('OPEN_CARD')
           currentChooseCard.value = type + 1
 
       })

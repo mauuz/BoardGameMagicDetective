@@ -65,15 +65,13 @@ export default {
   }
   .player {
     margin: 0 auto;
-    margin-top: 2rem;
+    margin-top: 3rem;
     margin-bottom: 1rem;
-    line-height:2rem;
-    width:10rem;
-    height:2rem;
+    line-height:1.5rem;
+    width:7rem;
+    height:1.5rem;
     text-align:center;
     color:#ffffff;
-    font-size:1.3rem;
-    font-weight:bold;
     background: url("../../src/assets/img_1.png") no-repeat center center;
     background-position:20%;
     background-size: 100% 100%;

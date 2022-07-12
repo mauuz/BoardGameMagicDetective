@@ -3,6 +3,9 @@
     <button @click="confirm" :class="{prohibit:prohibit}">确定出牌</button>
   </div>
 <div class="center">
+  <div class="player">
+    Player{{playerId}}
+  </div>
   <div class="scoreboards">
       <div class="card-display" v-for="(item,index) in cardTypeNumberList">
         <img :src="getUrl(index)" alt="" ref="imgPosition" @click="choose(index)" :class="{active:item.isChoose}">
@@ -20,69 +23,19 @@
 </template>
 
 <script>
+import {useStore} from 'vuex'
 import {ref, computed, onMounted, getCurrentInstance, watch} from 'vue'
 export default {
   name: "scoreBoards",
   setup(){
+    const store = useStore()
     const currentChooseCard = ref(0)
     const { appContext } = getCurrentInstance()
     const imgPosition = ref(null)
     const prohibit = ref(true)
-    const cardTypeNumberList = ref([{
-      type:1,
-      number:2,
-      fill:0,
-      isChoose:false
-    },
-      {
-        type:2,
-        number:2,
-        fill:1,
-        isChoose:false
-      },
-      {
-        type:3,
-        number:3,
-        fill:3,
-        isChoose:false
-      },
-      {
-        type:4,
-        number:3,
-        fill:2,
-        isChoose:false
-      },
-      {
-        type:5,
-        number:3,
-        fill:2,
-        isChoose:false
-      },
-      {
-        type:6,
-        number:4,
-        fill:4,
-        isChoose:false
-      },
-      {
-        type:7,
-        number:4,
-        fill:2,
-        isChoose:false
-      },
-      {
-        type:8,
-        number:4,
-        fill:3,
-        isChoose:false
-      },
-      {
-        type:9,
-        number:4,
-        fill:2,
-        isChoose:false
-      },
-    ])
+    const cardTypeNumberList = computed(()=>{
+      return store.state.boardCredit.cardTypeNumberList
+    })
     let cardFillIn = ref(cardTypeNumberList)
 
     function getUrl(index){
@@ -104,7 +57,9 @@ export default {
     function confirm(){
       appContext.config.globalProperties.$bus.emit('confirm',currentChooseCard.value)
     }
-
+    const playerId = computed(()=>{
+      return store.state.setting.playerId
+    })
     watch(cardTypeNumberList,(old,newValue)=>{
       for(let i = 0;i< cardTypeNumberList.value.length;i++) {
         if(cardTypeNumberList.value[i].isChoose){
@@ -117,7 +72,7 @@ export default {
 
     },{deep:true})
     return {
-      cardTypeNumberList,cardFillIn,getUrl,choose,imgPosition,confirm,prohibit
+      cardTypeNumberList,cardFillIn,getUrl,choose,imgPosition,confirm,prohibit,playerId
     }
   },
 
@@ -170,7 +125,7 @@ export default {
 
   .confirm {
     text-align:center;
-    margin-top: -2rem;
+    margin-top: -5rem;
     margin-bottom:1.5rem;
   }
 
@@ -180,8 +135,8 @@ export default {
       background-position:20%;
       background-size: 100% 100%;
       cursor: pointer;
-      width:8rem;
-      height:2rem;
+      width:9.6rem;
+      height:2.4rem;
       border:none;
       border-radius: 1rem;
   }
@@ -191,4 +146,17 @@ export default {
     opacity:0.5;
   }
 
+  .player {
+    margin: 0 auto;
+    margin-top: 4rem;
+    line-height:1.5rem;
+    width:7rem;
+    height:1.5rem;
+    text-align:center;
+    color:#ffffff;
+    background: url("../../src/assets/img_1.png") no-repeat center center;
+    background-position:20%;
+    background-size: 100% 100%;
+    margin-bottom: 1.5rem;
+  }
 </style>
