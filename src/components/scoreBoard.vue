@@ -4,7 +4,7 @@
   </div>
 <div class="center">
   <div class="endMyTurn" :class="{prohibit:!canPlayerPass}">
-    <button>结束回合</button>
+    <button @click="endMyTurn">结束回合</button>
   </div>
   <div class="player">
     Player{{playerId}}
@@ -69,6 +69,9 @@ export default {
     function confirm(){
       appContext.config.globalProperties.$bus.emit('confirm',currentChooseCard.value)
     }
+    function endMyTurn(){
+      store.commit('END_MY_TURN')
+    }
     const playerId = computed(()=>{
       return store.state.setting.playerId
     })
@@ -98,7 +101,8 @@ export default {
       }
     })
     return {
-      cardTypeNumberList,cardFillIn,getUrl,choose,imgPosition,confirm,prohibit,playerId,canPlayerPass,canConfirm
+      cardTypeNumberList,cardFillIn,getUrl,choose,imgPosition,confirm,prohibit,playerId,canPlayerPass,canConfirm,
+      endMyTurn
     }
   },
 

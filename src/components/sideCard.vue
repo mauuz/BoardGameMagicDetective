@@ -15,7 +15,7 @@ export default {
   name: "sideCard",
   setup() {
       function imgUrl(index){
-        return new URL(`../../src/assets/${index+1}.png`, import.meta.url).href
+        return new URL(`../../src/assets/${index}.png`, import.meta.url).href
       }
       return {
         imgUrl
@@ -31,6 +31,9 @@ export default {
 </script>
 
 <style scoped>
+  .user-card {
+    min-height:20rem;
+  }
   .card {
       width: 4rem;
       height: auto;
@@ -42,11 +45,10 @@ export default {
 
   .clear {
     font-size:2rem;
+    margin-top: 2rem;
+    writing-mode:vertical-lr;
     font-weight:bold;
-    color:#ded7c2;
-    margin: 0 auto;
-    width: 7rem;
-    height: 7rem;
-    text-align:center;
+    color:#ffffff;
+    width: 4rem;
   }
 </style>

@@ -1,7 +1,7 @@
 import  {createStore} from 'vuex'
 const playerCard = {
     namespace: true,
-    action:{
+    actions:{
 
     },
     mutations:{
@@ -13,15 +13,15 @@ const playerCard = {
             cardList:[
                 {
                     player:1,
-                    card:[2,3,5]
+                    card:[2,3,5,3,1]
                 },
                 {
                     player:4,
-                    card:[6,7,8]
+                    card:[6,7,8,3,1]
                 },
                 {
                     player:2,
-                    card:[1,2,3]
+                    card:[1,2,3,3,1]
                 }
             ]
         }
@@ -29,24 +29,42 @@ const playerCard = {
 }
 const setting = {
     namespace: true,
-    action:{
-
+    actions:{
+        setRandomRoomId(ctx){
+            let randomID = ''
+            let list = [1,2,3,4,5,6,7,8,9]
+            for (let i = 0; i < 4; i++) {
+                randomID += list[Math.round(Math.random() * 8)]
+            }
+            ctx.commit('SET_ROOM_ID',randomID)
+        },
+        getPlayerId(ctx,value){
+            //获取playerId
+        }
     },
     mutations:{
-
+        SET_PLAYER_NUMBER(state,value){
+            state.playerNumber = value
+        },
+        SET_ROOM_ID(state,value){
+            state.roomId = value
+        },
+        SET_PLAYER_ID(state,value){
+            state.playerId = value
+        }
     },
 
     state(){
         return {
-            playerNumber:5,
-            roomId:123,
-            playerId:2
+            playerNumber:0,
+            roomId:0,
+            playerId:1
         }
     }
 }
 const boardCredit = {
     namespace: true,
-    action:{
+    actions:{
 
     },
     mutations:{
@@ -114,17 +132,20 @@ const boardCredit = {
     }
 }
 const centerShowCard = {
-    action:{
+    actions:{
 
     },
     mutations:{
+        //确定出牌后运行这个
         OPEN_CARD(state){
             state.showCard = true
             state.isPlayCard = true
             state.isMyTurn = false
         },
-        ClOSE_CARD(state){
+        //结束回合运行这个
+        END_MY_TURN(state){
             state.showCard = false
+            state.isPlayCard = false
         },
     },
     state(){
@@ -139,11 +160,33 @@ const centerShowCard = {
         }
     }
 }
+const waitingRoom = {
+    actions:{
+
+    },
+    mutations:{
+        CLOSER_WAITING_ROOM(state){
+            state.showWaitingInfo = false
+        },
+        OPEN_WAITING_ROOM(state){
+            state.showWaitingInfo = true
+        }
+    },
+    state(){
+        return {
+            showWaitingInfo:false,
+            currentPlayerNumber:0
+        }
+
+    }
+}
+
 export const store = createStore({
     modules:{
         playerCard,
         setting,
         boardCredit,
-        centerShowCard
+        centerShowCard,
+        waitingRoom
     }
 })

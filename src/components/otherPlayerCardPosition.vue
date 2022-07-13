@@ -11,11 +11,11 @@
       </div>
     </div>
     <div class="left-right">
-      <sideCard :cardList="[1,2,5]"></sideCard>
+      <sideCard :cardList="cardLeft"></sideCard>
       <div style="height:12.7rem;width:7.5rem;">
         <centerCard></centerCard>
       </div>
-      <sideCard :cardList="[5,6,1]"></sideCard>
+      <sideCard :cardList="cardRight"></sideCard>
     </div>
 </template>
 
@@ -31,10 +31,27 @@ export default {
   setup(){
     const store = useStore()
     console.log(store.state)
-    //卡牌数组
+    //top卡牌数组
     let top = computed(()=>{
         return store.state.playerCard.cardList[0].card
     })
+    //left卡牌
+    let cardLeft = computed(()=>{
+      if(store.state.setting.playerNumber === 4){
+        return store.state.playerCard.cardList[0].card
+      }else {
+        return store.state.playerCard.cardList[1].card
+      }
+    })
+
+    let cardRight = computed(()=>{
+      if(store.state.setting.playerNumber === 4){
+        return store.state.playerCard.cardList[1].card
+      }else {
+        return store.state.playerCard.cardList[2].card
+      }
+    })
+
     let playerLeft = computed(()=>{
         if(store.state.setting.playerNumber === 4){
           return store.state.playerCard.cardList[0].player
@@ -55,7 +72,7 @@ export default {
       return store.state.setting.playerNumber
     })
     return {
-      top,playerNumber,playerLeft,playerRight
+      top,playerNumber,playerLeft,playerRight,cardLeft,cardRight
     }
   },
   components:{

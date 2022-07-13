@@ -1,7 +1,7 @@
 <template>
   <div class="playerNumber">
     <div>
-      <input type="text">
+      <input type="text" maxlength="4">
     </div>
     <div>
       <button>确认</button>

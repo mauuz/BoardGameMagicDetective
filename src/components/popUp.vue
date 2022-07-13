@@ -21,24 +21,42 @@
     </div>
   </teleport>
 
+  <teleport to="body" v-if="showWaiting">
+    <div class="mask" >
+        <div class="center" style="color:#ffffff;font-size:2rem">
+            <div>等待其他玩家加入</div>
+            <div>1/4</div>
+            <div @click.stop="closeWaitingRoom" style="font-size:1rem;margin-top:1.5rem;">关闭</div>
+        </div>
+    </div>
+  </teleport>
+
 </template>
 
 <script>
+import {useStore} from 'vuex'
 import choosePlayerNumber from "./choosePlayerNumber.vue";
 import enterRoom from "./enterRoom.vue";
-import { ref,onMounted,getCurrentInstance} from 'vue'
+import { ref,onMounted,getCurrentInstance,computed} from 'vue'
 export default {
   name: "popUp",
   setup(){
+      const store = useStore()
       const { appContext } = getCurrentInstance()
       let showPopUp = ref(false)
       let showEnterRoom = ref(false)
+      let showWaiting = computed(()=>{
+        return store.state.waitingRoom.showWaitingInfo
+      })
       function close (){
         showPopUp.value = false
         showEnterRoom.value = false
       }
       function prevent(){
 
+      }
+      function closeWaitingRoom(){
+        store.commit('CLOSER_WAITING_ROOM')
       }
       onMounted(()=>{
         appContext.config.globalProperties.$bus.on('createRoom',()=>{
@@ -50,7 +68,7 @@ export default {
         })
       })
       return {
-        showPopUp,close,prevent,showEnterRoom
+        showPopUp,close,prevent,showEnterRoom,showWaiting,closeWaitingRoom
       }
   },
   components:{

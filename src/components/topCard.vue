@@ -20,7 +20,7 @@ export default {
   setup(){
     const store = useStore()
     function imgUrl(index){
-      return new URL(`../../src/assets/${index+1}.png`, import.meta.url).href
+      return new URL(`../../src/assets/${index}.png`, import.meta.url).href
     }
     const player = computed(()=>{
       if(store.state.setting.playerNumber === 5){
@@ -57,7 +57,7 @@ export default {
   .clear {
     font-size:2rem;
     font-weight:bold;
-    color:#ded7c2;
+    color:#ffffff;
     margin: 0 auto;
     width: 7rem;
     height: 7rem;
